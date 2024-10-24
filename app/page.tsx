@@ -4,7 +4,10 @@ import PhysicsPage from "../pages/physics"
 export default function Home() {
   return (
     <>
-    <PhysicsPage />
+    <PhysicsPage 
+      worldWidth={400}
+      worldHeight={600}
+    />
     </>
   );
 }
