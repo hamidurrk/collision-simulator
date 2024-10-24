@@ -1,30 +1,10 @@
 import React, { useEffect } from 'react';
 import Head from 'next/head';
-import {Cloud, renderSimpleIcon, fetchSimpleIcons, SimpleIcon} from 'react-icon-cloud'
-import allIcons from "simple-icons";
 
 // Import Matter.js globally without touching the original script
 const Matter = require('matter-js');
 
-const useIcons = (slugs) => {
-  const [icons, setIcons] = React.useState()
-  React.useEffect(() => {fetchSimpleIcons({slugs}).then(setIcons)}, [])
-
-  if (icons) {
-    return Object.values(icons.simpleIcons).map((icon) => renderSimpleIcon({
-      icon,
-      size: 42,
-      aProps: {
-        onClick: (e) => e.preventDefault()
-      }
-    }))
-  }
-}
-const slugs = [
-  'amazonaws'
-]
 const PhysicsPage = () => {
-  const icons = useIcons(slugs)
   useEffect(() => {
     // Your untouched Matter.js code
     const Example = {};
@@ -101,7 +81,7 @@ const PhysicsPage = () => {
         var timeScale = (event.delta || (1000 / 60)) / 1000;
 
         // tween the timescale for bullet time slow-mo
-        engine.timing.timeScale += (timeScaleTarget - engine.timing.timeScale) * 12 * timeScale;
+        engine.timing.timeScale += (timeScaleTarget - engine.timing.timeScale) * 10 * timeScale;
 
         // every 2 sec (real time)
         if (Common.now() - lastTime >= 2000) {
@@ -131,43 +111,35 @@ const PhysicsPage = () => {
       const logos = [
         '/skills/python.svg',
         '/skills/cpp.svg',
-        '/skills/c.svg',
-        '/skills/c.svg',
+        '/skills/typescript.svg',
+        '/skills/javascript.svg',
+        '/skills/next.svg',
+        '/skills/react.svg',
+        '/skills/gsap.svg',
+        '/skills/arduino.svg',
+        '/skills/etherium.svg',
+        '/skills/selenium.svg',
+        '/skills/firebase.svg',
+        '/skills/photoshop.svg',
+        '/skills/premiere.svg',
+        '/skills/fusion.svg',
       ]
-      
-      // Composite.add(world, Composites.stack(20, 100, 15, 3, 20, 40, function(x, y) {
-      //   return Bodies.circle(x, y, Common.random(10, 20), bodyOptions);
-      // }));
-
-      // Composite.add(world, Composites.stack(50, 50, 8, 3, 0, 0, function(x, y) {
-      //   switch (Math.round(Common.random(0, 1))) {
-
-      //   case 0:
-      //       if (Common.random() < 0.8) {
-      //         return Bodies.rectangle(x, y, Common.random(20, 50), Common.random(20, 50), bodyOptions);
-      //       } else {
-      //         return Bodies.rectangle(x, y, Common.random(80, 120), Common.random(20, 30), bodyOptions);
-      //       }
-      //   case 1:
-      //       return Bodies.polygon(x, y, Math.round(Common.random(4, 8)), Common.random(20, 50), bodyOptions);
-
-      //   }
-      // }));
-
-      Composite.add(world, Composites.stack(20, 100, logos.length, 1, Common.random(10, 15), Common.random(10, 15), function(x, y) {
+      Composite.add(world, Composites.stack(worldWidth/5, worldHeight/10, worldWidth/80, logos.length, Common.random(10, 15), Common.random(10, 15), function(x, y) {
         if (logos.length === 0) return; // Stop if no logos are left
 
       // Pick a logo and remove it from the array
-        const logo = logos.shift();
+      var logo = new Image();
+        logo.src = logos.shift();
+        console.log(60/logo.width)
         return Bodies.rectangle(x, y, 60, 60, {
           frictionAir: 0, 
           friction: 0.0001,
           restitution: 0.8,
           render: {
             sprite: {
-              texture: logo,
-              xScale: 0.4,
-              yScale: 0.4
+              texture: logo.src,
+              xScale: 60/logo.width,
+              yScale: 60/logo.width
             }
           }
         });
@@ -178,7 +150,7 @@ const PhysicsPage = () => {
           mouseConstraint = MouseConstraint.create(engine, {
             mouse: mouse,
             constraint: {
-              stiffness: 0.2,
+              stiffness: 0.5,
               render: {
                 visible: false
               }
@@ -223,7 +195,6 @@ const PhysicsPage = () => {
       <div>
         <h1>Physics Simulation using Matter.js</h1>
         <div id="scene-container"></div>
-        {icons}
       </div>
     </>
   );
